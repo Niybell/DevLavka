@@ -1,5 +1,6 @@
 using DevLavka.Models;
 using DevLavka.Models.EntityFramework;
+using DevLavka.Models.EntityFramework.Repositories;
 using DevLavka.Services.Implementations;
 using DevLavka.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();   
 builder.Services.AddDbContext<AuthDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
+builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnectionString")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AuthDBContext>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IBaseRepository<Article>, ArticlesRepository>();
 
 var app = builder.Build();
 
